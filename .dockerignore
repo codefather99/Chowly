@@ -1,0 +1,8 @@
+target/
+.idea/
+.git/
+.gitignore
+*.iml
+.env
+chowly-frontend/node_modules/
+chowly-frontend2/node_modules/
