@@ -12,6 +12,7 @@ import Payment from "./pages/Payment";
 import Complaint from "./pages/Complaint";
 import Rating from "./pages/Rating";
 import AdminDashboard from "./pages/AdminDashboard";
+import WaiterDashboard from "./pages/WaiterDashboard";
 import NotFound from "./pages/NotFound";
 
 export default function App() {
@@ -29,6 +30,7 @@ export default function App() {
       <Route path="/complaint" element={<Complaint />} />
       <Route path="/rating" element={<Rating />} />
       <Route path="/admin" element={<AdminDashboard />} />
+      <Route path="/waiter" element={<WaiterDashboard />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

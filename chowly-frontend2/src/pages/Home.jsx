@@ -160,8 +160,8 @@ export default function Home() {
               <li className="flex items-start gap-3">
                 <HiOutlineShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-brand-500" />
                 <div>
-                  <p className="font-semibold text-ink-800">Secure Payments</p>
-                  <p className="text-xs text-ink-400">100% secure and safe payments</p>
+                  <p className="font-semibold text-ink-800">Demo Payments</p>
+                  <p className="text-xs text-ink-400">Pretend payment only — for demo purposes</p>
                 </div>
               </li>
             </ul>

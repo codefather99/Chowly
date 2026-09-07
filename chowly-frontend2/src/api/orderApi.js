@@ -7,8 +7,7 @@ const orderApi = {
   getByCustomer: (customerId, config) => api.get(`/orders/customer/${customerId}`, config),
   getByRestaurant: (restaurantId, config) => api.get(`/orders/restaurant/${restaurantId}`, config),
   getByStatus: (orderStatus, config) => api.get(`/orders/status/${orderStatus}`, config),
-  // Body shape assumed to match CreateOrderRequest: { customerId, restaurantId, items: [{menuItemId, quantity}], deliveryAddress }
-  // Share the real DTO if field names differ and I'll line this up exactly.
+  // Matches CreateOrderRequest exactly: { customerId, restaurantId, items: [{menuItemId, quantity}] }
   placeOrder: (data) => api.post("/orders", data),
   updateStatus: (id, orderStatus) => api.patch(`/orders/${id}/status`, { orderStatus }),
   cancelOrder: (id) => api.patch(`/orders/${id}/cancel`),

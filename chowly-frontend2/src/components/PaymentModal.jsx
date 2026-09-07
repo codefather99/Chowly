@@ -37,6 +37,9 @@ export default function PaymentModal({ open, onClose, amount, orderId, onSuccess
 
   return (
     <Modal open={open} onClose={onClose} title="Complete Payment">
+      <div className="mb-4 flex items-center gap-2 rounded-xl bg-yellow-50 px-3 py-2 text-xs font-semibold text-yellow-700">
+        ⚠️ Demo payment — no money moves. This just records a pretend payment against your order.
+      </div>
       <p className="mb-4 text-sm text-ink-500">
         Amount due:{" "}
         <span className="font-bold text-ink-900">{formatNaira(amount)}</span>{" "}
@@ -63,7 +66,7 @@ export default function PaymentModal({ open, onClose, amount, orderId, onSuccess
       {error && <p className="mt-3 text-xs text-red-500">{error}</p>}
 
       <button onClick={handlePay} disabled={loading} className="btn-primary mt-5 w-full !py-3">
-        {loading ? "Processing..." : `Pay ${formatNaira(amount)}`}
+        {loading ? "Recording pretend payment..." : `Simulate Payment of ${formatNaira(amount)}`}
       </button>
     </Modal>
   );

@@ -1,8 +1,9 @@
-package com.example.chowly.config;
+package com.example.chowly.config; // Adjust to match your package path
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -21,17 +22,14 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth
-                // Allow browser preflight OPTIONS requests without auth
-                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // Explicitly permit public endpoints
-                .requestMatchers("/api/restaurants/**", "/api/auth/**").permitAll()
-                // All other endpoints require authentication
-                .anyRequest().authenticated()
-            );
+                .cors(Customizer.withDefaults())
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        .requestMatchers("/api/restaurants/**", "/api/auth/**").permitAll()
+                        .anyRequest().authenticated()
+                );
 
         return http.build();
     }
@@ -40,13 +38,11 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Match your exact Vercel frontend domain and local development
-        configuration.setAllowedOriginPatterns(List.of(
-            "https://chowly-rho.vercel.app",
-            "http://localhost:5173",
-            "http://localhost:3000"
+        // Whitelist your exact Vercel origin and local Vite dev server
+        configuration.setAllowedOrigins(List.of(
+                "https://chowly-rho.vercel.app",
+                "http://localhost:5173"
         ));
-
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

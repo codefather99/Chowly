@@ -119,12 +119,12 @@ export default function Cart({ showCheckoutButton = true }) {
             </button>
           )}
 
-          <div className="mt-4 flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2.5 text-green-700">
+          <div className="mt-4 flex items-center gap-2 rounded-xl bg-yellow-50 px-3 py-2.5 text-yellow-700">
             <HiOutlineShieldCheck className="h-5 w-5 shrink-0" />
             <div>
-              <p className="text-xs font-bold">Safe & Secure Payments</p>
-              <p className="text-[11px] text-green-600">
-                100% secure payments • Easy returns
+              <p className="text-xs font-bold">Demo Payments</p>
+              <p className="text-[11px] text-yellow-600">
+                Pretend payment only — no money is ever moved
               </p>
             </div>
           </div>

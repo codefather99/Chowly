@@ -9,6 +9,7 @@ import {
 } from "react-icons/hi";
 import { useCart } from "../context/CartContext";
 import { currentUser } from "../mock/mockData";
+import { getRole, setRole } from "../role";
 
 const navItems = [
   { to: "/", label: "Home" },
@@ -20,11 +21,18 @@ const navItems = [
 export default function Navbar() {
   const { itemCount } = useCart();
   const [query, setQuery] = useState("");
+  const [role, setRoleState] = useState(getRole());
   const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim()) navigate(`/restaurants?query=${encodeURIComponent(query)}`);
+  };
+
+  const switchRole = (next) => {
+    setRole(next);
+    setRoleState(next);
+    navigate(next === "waiter" ? "/waiter" : "/");
   };
 
   return (
@@ -67,37 +75,68 @@ export default function Navbar() {
 
         {/* Nav links */}
         <nav className="ml-auto hidden items-center gap-6 lg:flex">
-          {navItems.map((item) => (
+          {role === "customer" &&
+            navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                className={({ isActive }) =>
+                  `relative pb-1 ${isActive ? "nav-link-active" : "nav-link"}`
+                }
+              >
+                {({ isActive }) => (
+                  <>
+                    {item.label}
+                    {isActive && (
+                      <span className="absolute -bottom-[13px] left-0 h-0.5 w-full rounded-full bg-brand-500" />
+                    )}
+                  </>
+                )}
+              </NavLink>
+            ))}
+          {role === "waiter" && (
             <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/"}
-              className={({ isActive }) =>
-                `relative pb-1 ${isActive ? "nav-link-active" : "nav-link"}`
-              }
+              to="/waiter"
+              className={({ isActive }) => (isActive ? "nav-link-active" : "nav-link")}
             >
-              {({ isActive }) => (
-                <>
-                  {item.label}
-                  {isActive && (
-                    <span className="absolute -bottom-[13px] left-0 h-0.5 w-full rounded-full bg-brand-500" />
-                  )}
-                </>
-              )}
+              Incoming Orders
             </NavLink>
-          ))}
+          )}
         </nav>
+
+        {/* Role switch */}
+        <div className="hidden shrink-0 items-center gap-1 rounded-full bg-ink-100 p-1 md:flex">
+          <button
+            onClick={() => switchRole("customer")}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+              role === "customer" ? "bg-white text-ink-900 shadow-card" : "text-ink-500"
+            }`}
+          >
+            Customer
+          </button>
+          <button
+            onClick={() => switchRole("waiter")}
+            className={`rounded-full px-3 py-1.5 text-xs font-semibold transition ${
+              role === "waiter" ? "bg-white text-ink-900 shadow-card" : "text-ink-500"
+            }`}
+          >
+            Waiter
+          </button>
+        </div>
 
         {/* Right icons */}
         <div className="ml-auto flex items-center gap-4 lg:ml-0">
-          <NavLink to="/cart" className="relative rounded-full p-2 hover:bg-ink-50">
-            <HiOutlineShoppingCart className="h-6 w-6 text-ink-700" />
-            {itemCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-[10px] font-bold text-white">
-                {itemCount}
-              </span>
-            )}
-          </NavLink>
+          {role === "customer" && (
+            <NavLink to="/cart" className="relative rounded-full p-2 hover:bg-ink-50">
+              <HiOutlineShoppingCart className="h-6 w-6 text-ink-700" />
+              {itemCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 grid h-5 w-5 place-items-center rounded-full bg-brand-500 text-[10px] font-bold text-white">
+                  {itemCount}
+                </span>
+              )}
+            </NavLink>
+          )}
           <button className="relative rounded-full p-2 hover:bg-ink-50">
             <HiOutlineBell className="h-6 w-6 text-ink-700" />
           </button>
@@ -108,7 +147,7 @@ export default function Navbar() {
               className="h-8 w-8 rounded-full object-cover"
             />
             <span className="hidden text-sm font-semibold text-ink-800 sm:block">
-              {currentUser.name}
+              {role === "waiter" ? "Waiter Mode" : currentUser.name}
             </span>
             <HiChevronDown className="hidden h-4 w-4 text-ink-400 sm:block" />
           </button>

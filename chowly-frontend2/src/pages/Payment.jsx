@@ -45,6 +45,9 @@ export default function Payment() {
         <h1 className="mb-6 text-2xl font-extrabold text-ink-900">Payment</h1>
 
         <div className="card p-6">
+          <div className="mb-4 flex items-center gap-2 rounded-xl bg-yellow-50 px-3 py-2 text-xs font-semibold text-yellow-700">
+            ⚠️ Demo payment — no money moves. This just records a pretend payment against your order.
+          </div>
           <p className="text-sm text-ink-500">
             Order <span className="font-semibold text-ink-800">{orderId}</span>
           </p>
@@ -68,16 +71,16 @@ export default function Payment() {
           </div>
 
           <button onClick={handlePay} disabled={loading} className="btn-primary mt-6 w-full !py-3">
-            {loading ? "Processing..." : `Pay ${formatNaira(amount)}`}
+            {loading ? "Recording pretend payment..." : `Simulate Payment of ${formatNaira(amount)}`}
           </button>
 
           {error && (
             <p className="mt-3 rounded-xl bg-red-50 px-3 py-2 text-xs text-red-600">{error}</p>
           )}
 
-          <div className="mt-4 flex items-center gap-2 rounded-xl bg-green-50 px-3 py-2.5 text-green-700">
+          <div className="mt-4 flex items-center gap-2 rounded-xl bg-yellow-50 px-3 py-2.5 text-yellow-700">
             <HiOutlineShieldCheck className="h-5 w-5 shrink-0" />
-            <p className="text-xs font-semibold">100% secure payments • Easy returns</p>
+            <p className="text-xs font-semibold">Pretend payment only — no money is ever moved</p>
           </div>
         </div>
       </div>

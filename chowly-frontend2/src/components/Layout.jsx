@@ -1,13 +1,16 @@
 import React from "react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import { getRole } from "../role";
 
 export default function Layout({ children }) {
+  const role = getRole();
+
   return (
     <div className="min-h-screen bg-ink-50">
       <Navbar />
       <div className="mx-auto flex max-w-[1600px]">
-        <Sidebar />
+        {role === "customer" && <Sidebar />}
         <main className="min-w-0 flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
     </div>
